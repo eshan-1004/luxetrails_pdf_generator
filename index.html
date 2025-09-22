@@ -141,3 +141,224 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Travel Package Input Form</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .form-container {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin: 40px 0;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #444;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+      color: #333;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    input[type="file"] {
+      padding: 4px;
+      background: #fdfdfd;
+    }
+
+    button {
+      background: #4CAF50;
+      color: white;
+      padding: 10px 16px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover { background: #45a049; }
+
+    .remove-btn {
+      background: #f44336;
+      margin-left: 10px;
+    }
+
+    .group {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      background: #fafafa;
+      position: relative;
+    }
+
+    .form-actions {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+  <script>
+    function addField(containerId, fieldName, placeholder) {
+      const container = document.getElementById(containerId);
+      const wrapper = document.createElement("div");
+      wrapper.className = "group";
+      wrapper.innerHTML = `
+        <input type="text" name="${fieldName}" placeholder="${placeholder}">
+        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
+      `;
+      container.appendChild(wrapper);
+    }
+
+    function addImageField(containerId, fieldName, labelText) {
+      const container = document.getElementById(containerId);
+      const wrapper = document.createElement("div");
+      wrapper.className = "group";
+      wrapper.innerHTML = `
+        <label>${labelText}</label>
+        <input type="file" name="${fieldName}">
+        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
+      `;
+      container.appendChild(wrapper);
+    }
+
+    function addHotel() {
+      const container = document.getElementById("hotel_list");
+      const div = document.createElement("div");
+      div.className = "group";
+      div.innerHTML = `
+        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
+        <label>Hotel Image 1</label><input type="file" name="hotel_image_1[]">
+        <label>Hotel Image 2</label><input type="file" name="hotel_image_2[]">
+        <label>Hotel Name</label><input type="text" name="hotel_name[]" placeholder="Hotel Name">
+        <label>Room Type</label><input type="text" name="room_type[]" placeholder="Room Type">
+        <label>Number of Nights</label><input type="number" name="Number_of_nights[]" placeholder="e.g. 2">
+      `;
+      container.appendChild(div);
+    }
+
+    function addItinerary() {
+      const container = document.getElementById("itinerary");
+      const div = document.createElement("div");
+      div.className = "group";
+      div.innerHTML = `
+        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
+        <label>Day</label><input type="text" name="itinerary_day[]" placeholder="e.g. DAY 1">
+        <label>Activity Title</label><input type="text" name="activity_title[]" placeholder="e.g. Arrival in Colombo">
+        <label>Activity Image</label><input type="file" name="activity_image[]">
+        <label>Activity Details (semicolon-separated)</label>
+        <input type="text" name="activity_details[]" placeholder="e.g. Arrive; Transfer; Check-in">
+      `;
+      container.appendChild(div);
+    }
+
+    function addCafeGem() {
+      const container = document.getElementById("cafe_gems");
+      const div = document.createElement("div");
+      div.className = "group";
+      div.innerHTML = `
+        <button type="button" class="remove-btn" onclick="this.parentNode.remove()">Remove</button>
+        <label>City</label><input type="text" name="cafe_city[]" placeholder="e.g. Colombo">
+        <label>Cafe Details (semicolon-separated)</label>
+        <input type="text" name="cafe_details[]" placeholder="e.g. Cafe Kumbuk; Black Cat Cafe">
+      `;
+      container.appendChild(div);
+    }
+  </script>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Travel Package Builder</h1>
+    <form method="POST" action="#" enctype="multipart/form-data">
+
+      <label>Title</label>
+      <input type="text" name="title" placeholder="Sri Lanka">
+
+      <label>Duration</label>
+      <input type="text" name="duration" placeholder="5 Nights 6 Days">
+
+      <label>Price Per Person</label>
+      <input type="text" name="pricePerPerson" placeholder="66,550 per person">
+
+      <label>Logo Image</label>
+      <input type="file" name="logo">
+
+      <label>Highlight Image</label>
+      <input type="file" name="highlight_image">
+
+      <label>Highlight Bullets</label>
+      <div id="highlight_bullets"></div>
+      <button type="button" onclick="addField('highlight_bullets', 'highlight_bullets[]', 'Highlight point')">Add Highlight</button>
+
+      <h2>Flight Images</h2>
+      <div id="flight_image_list"></div>
+      <button type="button" onclick="addImageField('flight_image_list', 'flight_image_list[]', 'Flight Image')">Add Flight Image</button>
+
+      <h2>Hotels</h2>
+      <div id="hotel_list"></div>
+      <button type="button" onclick="addHotel()">Add Hotel</button>
+
+      <h2>Itinerary</h2>
+      <div id="itinerary"></div>
+      <button type="button" onclick="addItinerary()">Add Itinerary Day</button>
+
+      <label>Inclusions</label>
+      <div id="inclusion_text"></div>
+      <button type="button" onclick="addField('inclusion_text', 'inclusion_text[]', 'Inclusion item')">Add Inclusion</button>
+
+      <label>Exclusions</label>
+      <div id="exclusion_details"></div>
+      <button type="button" onclick="addField('exclusion_details', 'exclusion_details[]', 'Exclusion item')">Add Exclusion</button>
+
+      <h2>Café Gems</h2>
+      <div id="cafe_gems"></div>
+      <button type="button" onclick="addCafeGem()">Add Café City</button>
+
+      <label>Recommendations</label>
+      <div id="recommendations"></div>
+      <button type="button" onclick="addField('recommendations', 'recommendations[]', 'Recommendation')">Add Recommendation</button>
+
+      <label>Practical Tips</label>
+      <div id="practical_tips"></div>
+      <button type="button" onclick="addField('practical_tips', 'practical_tips[]', 'Tip')">Add Tip</button>
+
+      <label>Flight Ticket Image</label>
+      <input type="file" name="flight_ticket_detail_image">
+
+      <div class="form-actions">
+        <button type="submit">Submit Form</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
